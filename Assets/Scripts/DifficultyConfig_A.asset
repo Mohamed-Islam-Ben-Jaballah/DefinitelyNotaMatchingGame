@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9c283710e278d429eafef3c9cce8c1, type: 3}
+  m_Name: DifficultyConfig_A
+  m_EditorClassIdentifier: 
+  defaultDifficulty: 0
+  easySize: 3
+  mediumSize: 5
+  hardSize: 6
+  impossibleSize: 8
+  atlas: {fileID: 21300000, guid: dfcc61c62c7eba34aab0e0374aede06f, type: 3}
+  atlasColumns: 8
+  atlasRows: 5
+  horizontalOffset: 0
+  verticalOffset: 0
