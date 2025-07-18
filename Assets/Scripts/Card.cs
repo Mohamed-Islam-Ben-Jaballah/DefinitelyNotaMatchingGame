@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements.Experimental;
 
 
 namespace MatchingGame
@@ -19,15 +20,28 @@ namespace MatchingGame
         [SerializeField] private int coordY = 0;
 
         [Tooltip("Assign a UI RawImage to render the atlas slice")]
-        [SerializeField] private RawImage rawImage;
+        [SerializeField] private RawImage ContentImage;
+
+        [Tooltip("Assign a UI RawImage to render the card edge")]
+        [SerializeField] private RawImage EdgeImage;
+
+        [Tooltip("Assign a UI RawImage to render the card back")]
+        [SerializeField] private RawImage BackImage;
+
+        [Tooltip("flipping animation duration")]
+        [SerializeField] private float flipDuration = 1;
+
+        [Tooltip("Current State of card")]
+        [SerializeField] private bool Up=false;
+
+
+
+
+
 
         private void Awake()
         {
             configurationHandler = GameManager.Instance.ConfigHandler;
-
-            if (rawImage == null)
-                rawImage = GetComponentInChildren<RawImage>();
-            
         }
 
         private void OnEnable()
@@ -45,11 +59,11 @@ namespace MatchingGame
         }
         public void ApplySlice(int x, int y)
         {
-            if (configurationHandler.Atlas == null || configurationHandler.AtlasColumns < 1 || configurationHandler.AtlasRows < 1 || rawImage == null)
+            if (configurationHandler.Atlas == null || configurationHandler.AtlasColumns < 1 || configurationHandler.AtlasRows < 1 || ContentImage == null)
                 return;
 
             // assign texture
-            rawImage.texture = configurationHandler.Atlas.texture;
+            ContentImage.texture = configurationHandler.Atlas.texture;
 
             // size of each cell in UV space
             float cellW = 1f / configurationHandler.AtlasColumns;
@@ -63,7 +77,59 @@ namespace MatchingGame
             float u = x * cellW + uOffset;
             float v = 1f - ((y + 1) * cellH) - vOffset;
 
-            rawImage.uvRect = new Rect(u, v, cellW, cellH);
+            ContentImage.uvRect = new Rect(u, v, cellW, cellH);
+        }
+
+        public void Reveal()
+        {
+            if (Up) return;
+
+            Up = true;
+
+            // cancel any running flip tweens
+            LeanTween.cancel(gameObject);
+
+            // Phase 1: rotate to 90°
+            LeanTween.rotateY(gameObject, 90f, flipDuration)
+                     .setEase(LeanTweenType.easeOutSine)
+                     .setOnComplete(OnHalfFlipComplete);
+
+        }
+
+        public void Hide()
+        {
+            if (!Up) return;
+
+            Up = false;
+
+            // cancel any running flip tweens
+            LeanTween.cancel(gameObject);
+
+            // Phase 1: rotate to 90°
+            LeanTween.rotateY(gameObject, 90f, flipDuration)
+                     .setEase(LeanTweenType.easeOutSine)
+                     .setOnComplete(OnHalfFlipComplete);
+
+        }
+
+        private void OnHalfFlipComplete()
+        {
+            // swap artwork
+            if (Up)
+            {
+                BackImage.gameObject.SetActive(false);
+                EdgeImage.gameObject.SetActive(true);
+            }
+            else
+            {
+                EdgeImage.gameObject.SetActive(false);
+                BackImage.gameObject.SetActive(true);
+            }
+
+
+            // Phase 2: rotate back to 0° (but showing the other side)
+            LeanTween.rotateY(gameObject, 0f, flipDuration)
+                     .setEase(LeanTweenType.easeInSine);
         }
     }
 }
