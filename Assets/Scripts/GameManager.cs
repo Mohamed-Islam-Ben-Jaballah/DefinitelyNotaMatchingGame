@@ -10,7 +10,9 @@ namespace MatchingGame
     {
         private static GameManager instance;
 
-        [SerializeField] private DifficultyHandler difficultyHandler;
+        [SerializeField] private ConfigurationHandler configHandler;
+
+        public ConfigurationHandler ConfigHandler => configHandler;
 
         public static GameManager Instance
         {

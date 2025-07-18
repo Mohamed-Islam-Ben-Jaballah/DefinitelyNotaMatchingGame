@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea9c283710e278d429eafef3c9cce8c1, type: 3}
-  m_Name: DifficultyConfig_A
+  m_Name: Config_A
   m_EditorClassIdentifier: 
-  defaultDifficulty: 0
-  easySize: 3
-  mediumSize: 5
-  hardSize: 6
-  impossibleSize: 8
+  defaultDifficulty: 2
+  easySize: {x: 10, y: 6}
+  mediumSize: {x: 4, y: 3}
+  hardSize: {x: 5, y: 4}
+  impossibleSize: {x: 8, y: 6}
   atlas: {fileID: 21300000, guid: dfcc61c62c7eba34aab0e0374aede06f, type: 3}
   atlasColumns: 8
   atlasRows: 5

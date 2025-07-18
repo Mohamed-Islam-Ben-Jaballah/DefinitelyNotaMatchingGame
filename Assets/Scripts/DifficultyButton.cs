@@ -5,7 +5,7 @@ namespace MatchingGame
 {
     public class DifficultyButton : MonoBehaviour
     {
-        [SerializeField] private DifficultyHandler handler;
+        [SerializeField] private ConfigurationHandler handler;
         [SerializeField] private Button button;
         [SerializeField] private Image[] skulls;  // assign 4 skull images in order
 
