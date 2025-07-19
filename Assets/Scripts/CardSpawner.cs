@@ -112,6 +112,9 @@ namespace MatchingGame
                     var cardGo = Instantiate(cardPrefab, panelRect);
                     cardGo.GetComponent<Card>().ApplySlice(atlasCoord);
 
+                    //add to the cards dictionary
+                    GameManager.Instance.cardsGo.Add(cardGo);
+
                     // Position
                     var cardRt = cardGo.GetComponent<RectTransform>();
                     float posX = Hpadding + (cellW * gridPos.x) + cardPadding.x * 0.5f;
@@ -121,6 +124,8 @@ namespace MatchingGame
                     cardRt.anchoredPosition = new Vector2(posX, posY);
                 }
             }
+            GameManager.Instance.unresolvedPairs = GameManager.Instance.cardsGo.Count / 2;
+            
         }
     }
 

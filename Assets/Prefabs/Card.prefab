@@ -279,8 +279,8 @@ MonoBehaviour:
   ContentImage: {fileID: 8279059017573482033}
   EdgeImage: {fileID: 3715437628796077097}
   BackImage: {fileID: 4925368102419081079}
-  flipDuration: 0.25
-  Up: 0
+  flipDuration: 0.5
+  succefulMatchAnimationRatio: 0.33
 --- !u!222 &8279059016438329894
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -335,7 +335,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8279059016438329889}
         m_TargetAssemblyTypeName: MatchingGame.Card, Assembly-CSharp
-        m_MethodName: Reveal
+        m_MethodName: OnCardPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

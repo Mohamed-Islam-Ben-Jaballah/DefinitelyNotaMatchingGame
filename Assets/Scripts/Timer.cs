@@ -17,11 +17,16 @@ namespace MatchingGame
         private float elapsedTime = 0f;
         private bool running = false;
 
+        public event System.Action OnTimeExpired;
+        private float timeLimit = 0;
+
         private void Awake()
         {
             // Ensure we have a reference to the TMP component
             if (timeText == null)
                 timeText = GetComponent<TextMeshProUGUI>();
+
+            timeLimit = GameManager.Instance.ConfigHandler.CurrentTimeLimit();
         }
         private void OnEnable()
         {
@@ -33,8 +38,13 @@ namespace MatchingGame
         private void Update()
         {
             if (!running) return;
-            elapsedTime += Time.deltaTime;
+            elapsedTime -= Time.deltaTime;
             UpdateDisplay();
+            if (elapsedTime <= 0f)
+            {
+                running = false;
+                OnTimeExpired.Invoke();
+            }
         }
 
         /// <summary>
@@ -58,7 +68,7 @@ namespace MatchingGame
         /// <summary>Reset elapsed time to zero and update display.</summary>
         public void ResetTimer()
         {
-            elapsedTime = 0f;
+            elapsedTime = timeLimit;
             UpdateDisplay();
         }
 

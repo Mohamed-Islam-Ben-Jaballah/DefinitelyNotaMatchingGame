@@ -44,4 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d23a15583de4ce48a1d8d4d717dc6cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardsGo: []
+  pendingCard: {fileID: 0}
+  comparisonInProgress: 0
+  unresolvedPairs: 0
   configHandler: {fileID: 11400000, guid: 06332cb8710e8234693dc467552e926f, type: 2}
+  scoringHandler: {fileID: 11400000, guid: 85bae5ad1c5c08642b59b581eb860b10, type: 2}
+  scoreText: {fileID: 0}
+  comboText: {fileID: 0}
+  timerText: {fileID: 0}
+  inGamePanel: {fileID: 0}
+  inMenuPanel: {fileID: 0}

@@ -21,8 +21,7 @@ namespace MatchingGame
     {
         [Header("Default Starting Difficulty")]
         [Tooltip("Used on first run if no saved value exists")]
-        [SerializeField]
-        private Difficulty defaultDifficulty = Difficulty.Easy;
+        [SerializeField] private Difficulty defaultDifficulty = Difficulty.Easy;
 
         [Header("Grid Size per Difficulty (columns × rows)")]
         [Tooltip("Define the grid width (columns) and height (rows) separately")]
@@ -30,6 +29,12 @@ namespace MatchingGame
         [SerializeField] private Vector2Int mediumSize = new Vector2Int(4, 3);
         [SerializeField] private Vector2Int hardSize = new Vector2Int(5, 4);
         [SerializeField] private Vector2Int impossibleSize = new Vector2Int(6, 5);
+
+        [Header("Time per Difficulty (in seconds)")]
+        [SerializeField] private float easyTime = 30;
+        [SerializeField] private float mediumTime = 80;
+        [SerializeField] private float hardTime = 150;
+        [SerializeField] private float impossibleTime = 280;
 
         [Header("Tiles Atlas")]
         [Tooltip("The atlas containing all tile images")]
@@ -78,11 +83,29 @@ namespace MatchingGame
                 default: return easySize;
             }
         }
+        public Vector2Int CurrentDifficultySize() => SizeFor(difficulty);
+
+        public Difficulty AdvanceDifficulty()
+        {
+            return difficulty = (Difficulty)(((int)difficulty + 1) % System.Enum.GetValues(typeof(Difficulty)).Length);
+        }
 
         /// <summary>
-        /// Returns the grid size for the current difficulty.
+        /// Returns the Time Limit (seconds) for the given difficulty.
         /// </summary>
-        public Vector2Int CurrentDifficultySize() => SizeFor(difficulty);
+        public float TimeFor(Difficulty d)
+        {
+            switch (d)
+            {
+                case Difficulty.Easy: return easyTime;
+                case Difficulty.Medium: return mediumTime;
+                case Difficulty.Hard: return hardTime;
+                case Difficulty.Impossible: return impossibleTime;
+                default: return impossibleTime;
+            }
+        }
+        public float CurrentTimeLimit() => TimeFor(difficulty);
+
 
         public Sprite Atlas => atlas;
         public int AtlasColumns => atlasColumns;
@@ -92,17 +115,7 @@ namespace MatchingGame
 
         private void OnEnable()
         {
-            _difficulty = defaultDifficulty; // Remove this line once saving is fixed
-            if (PlayerPrefs.HasKey("difficulty") &&
-                System.Enum.TryParse(PlayerPrefs.GetString("difficulty"), out Difficulty saved))
-            {
-                _difficulty = saved;
-                Debug.Log("Fetched saved data");
-            }
-            else
-            {
-                _difficulty = defaultDifficulty;
-            }
+            _difficulty = defaultDifficulty;
         }
 
 #if UNITY_EDITOR
