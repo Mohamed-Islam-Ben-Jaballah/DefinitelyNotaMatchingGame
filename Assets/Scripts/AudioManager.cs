@@ -76,7 +76,6 @@ namespace MatchingGame
             }
         }
 
-        // -------- MUSIC (no fading) --------
         public void PlayMusic(AudioClip clip)
         {
             if (!clip) return;
@@ -93,7 +92,6 @@ namespace MatchingGame
 
         public void ChangeMusic(AudioClip newClip) => PlayMusic(newClip);
 
-        // -------- SFX --------
         public void PlaySfx(AudioClip clip)
         {
             if (!clip) return;
@@ -101,11 +99,21 @@ namespace MatchingGame
             sfxSource.PlayOneShot(clip, masterVolume * sfxVolume);
         }
 
+        public void PlaySfx(AudioClip clip, float pitch)
+        {
+            if (!clip) return;
+            sfxSource.pitch = pitch;
+            sfxSource.PlayOneShot(clip, masterVolume * sfxVolume);
+        }
+
         public void PlayFlip() => PlaySfx(flipClip);
         public void PlayMatch() => PlaySfx(matchClip);
         public void PlayMismatch() => PlaySfx(mismatchClip);
 
-        // -------- VOLUME CONTROL --------
+        public void PlayFlip(float pitch) => PlaySfx(flipClip , pitch);
+        public void PlayMatch(float pitch) => PlaySfx(matchClip, pitch);
+        public void PlayMismatch(float pitch) => PlaySfx(mismatchClip, pitch);
+
         public void SetVolumes(float master, float music, float sfx)
         {
             masterVolume = Mathf.Clamp01(master);
@@ -118,7 +126,6 @@ namespace MatchingGame
         {
             if (musicSource.isPlaying)
                 musicSource.volume = masterVolume * musicVolume;
-            // SFX volume applied at PlayOneShot call
         }
 
         public void MuteAll(bool mute)

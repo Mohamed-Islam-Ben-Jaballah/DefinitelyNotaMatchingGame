@@ -21,13 +21,19 @@ namespace MatchingGame
         public int unresolvedPairs;     
         private bool gameOverTriggered = false;
 
+        [Header("Game Score")]
+        [Tooltip("Current total score")]
+        [SerializeField] public int score = 0;
+        [Tooltip("Current Combo Multiplier")]
+        [SerializeField] public int combo = 1;
+
 
         [Header("Game Configurations")]
         [SerializeField] private ConfigurationHandler configHandler;
         public ConfigurationHandler ConfigHandler => configHandler;
        
-        [SerializeField] private ScoringHandler scoringHandler;
-        public ScoringHandler ScoringHandler => scoringHandler;
+        [SerializeField] private ScoringConfiguration scoringHandler;
+        public ScoringConfiguration ScoringHandler => scoringHandler;
 
         [Header("UI fields")]
         [SerializeField] private TMP_Text scoreText;
@@ -87,8 +93,24 @@ namespace MatchingGame
 
         public void UpdateUI()
         {
-            scoreText.text = scoringHandler.score.ToString();
-            comboText.text = "X " + scoringHandler.combo.ToString();
+            scoreText.text = score.ToString();
+            comboText.text = "X " + combo.ToString();
+        }
+
+        public void CorrectMatch()
+        {
+            combo *= scoringHandler.comboMultiplier;
+            score += scoringHandler.baseScore * combo;
+            AudioManager.instance.PlayMatch(0.6f + combo * 0.06f);
+            UpdateUI();
+
+        }
+
+        public void IncorrectMatch()
+        {
+            AudioManager.instance.PlayMismatch(1.9f - combo * 0.09f);
+            combo = 1;
+            UpdateUI();
         }
 
         public void GameOver(bool won)
@@ -110,8 +132,8 @@ namespace MatchingGame
             }
 
             // Save basic results
-            PlayerPrefs.SetInt("MG_LastScore", scoringHandler.score);
-            PlayerPrefs.SetInt("MG_LastCombo", scoringHandler.combo);
+            PlayerPrefs.SetInt("MG_LastScore", score);
+            PlayerPrefs.SetInt("MG_LastCombo", combo);
             PlayerPrefs.SetInt("MG_Won", won ? 1 : 0);
             PlayerPrefs.Save();
 

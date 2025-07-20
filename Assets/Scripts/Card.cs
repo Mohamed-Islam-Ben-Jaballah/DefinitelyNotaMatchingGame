@@ -43,13 +43,13 @@ namespace MatchingGame
             {
                 a.ResolveAsMatch();
                 b.ResolveAsMatch();
-                GameManager.Instance.ScoringHandler.CorrectMatch();
+                GameManager.Instance.CorrectMatch();
             }
             else
             {
                 a.ResolveAsMismatchAndHide();
                 b.ResolveAsMismatchAndHide();
-                GameManager.Instance.ScoringHandler.IncorrectMatch();
+                GameManager.Instance.IncorrectMatch();
             }
 
             // After mismatch hides complete, new selections can still be added concurrently;
@@ -152,6 +152,9 @@ namespace MatchingGame
 
             // Start flip-up animation
             StartFlip(true);
+
+            //Play SFX
+            AudioManager.instance.PlayFlip();
         }
 
         public bool Matches(Card other)
@@ -164,7 +167,7 @@ namespace MatchingGame
             LeanTween.cancel(gameObject);
 
             Vector3 original = transform.localScale;
-            Vector3 peak = original * (1 + succefulMatchAnimationRatio); 
+            Vector3 peak = original * (1 + succefulMatchAnimationRatio);
 
             LeanTween.scale(gameObject, peak, flipDuration*(1- succefulMatchAnimationRatio))
                      .setEase(LeanTweenType.easeOutBack)
