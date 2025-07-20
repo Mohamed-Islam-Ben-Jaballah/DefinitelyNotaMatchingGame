@@ -26,6 +26,13 @@ namespace MatchingGame
         [SerializeField] public int score = 0;
         [Tooltip("Current Combo Multiplier")]
         [SerializeField] public int combo = 1;
+        [Tooltip("Timer")]
+        [SerializeField] public Timer timer;
+
+        public int HighScore => PlayerPrefs.GetInt("MG_HighScore", 0);
+        public int MaxCombo => PlayerPrefs.GetInt("MG_MaxCombo", 0);
+        public int TotalWins => PlayerPrefs.GetInt("MG_Wins", 0);
+        public int GamesPlayed => PlayerPrefs.GetInt("MG_GamesPlayed", 0);
 
 
         [Header("Game Configurations")]
@@ -38,11 +45,11 @@ namespace MatchingGame
         [Header("UI fields")]
         [SerializeField] private TMP_Text scoreText;
         [SerializeField] private TMP_Text comboText;
-        [SerializeField] private TMP_Text timerText;
         [SerializeField] private GameObject inGamePanel;
         [SerializeField] private GameObject inMenuPanel;
         [SerializeField] private GameObject GameWonPanel;
         [SerializeField] private GameObject GameLostPanel;
+        [SerializeField] private TMP_Text savedScoreText;
 
         public static GameManager Instance
         {
@@ -81,9 +88,14 @@ namespace MatchingGame
             }
             try
             {
-                timerText.gameObject.GetComponent<Timer>().OnTimeExpired += HandleTimeExpired;
+                timer.OnTimeExpired += HandleTimeExpired;
             }
             catch { }
+
+            inGamePanel.SetActive(false);
+            inMenuPanel.SetActive(true);
+            GameWonPanel.SetActive(false);
+            GameLostPanel.SetActive(false);
         }
 
         public void LaunchGame()
@@ -91,7 +103,8 @@ namespace MatchingGame
             inMenuPanel.SetActive(false);
             GameWonPanel.SetActive(false);
             GameLostPanel.SetActive(false);
-            inGamePanel.SetActive(true);    
+            inGamePanel.SetActive(true);
+            timer.ResetTimer();
             gameOverTriggered = false;
         }
 
@@ -131,15 +144,9 @@ namespace MatchingGame
             if (gameOverTriggered) return;
             gameOverTriggered = true;
 
-            
-            comparisonInProgress = true; // Stop any further comparisons / input
-            pendingCard = null;
+            ResetGame();
 
-            foreach (GameObject cardGo in cardsGo)
-            {
-                Destroy(cardGo);
-            }
-            cardsGo = new List<GameObject>();
+            score += ((int)timer.timeLeft + combo); // Calculate final score
 
             if (won)
             {
@@ -151,17 +158,34 @@ namespace MatchingGame
             GameWonPanel.SetActive(won);
             GameLostPanel.SetActive(!won);
 
-            // Save basic results
+            // --- Persistent Stats ---
+            // Current results
             PlayerPrefs.SetInt("MG_LastScore", score);
-            PlayerPrefs.SetInt("MG_LastCombo", combo);
-            PlayerPrefs.SetInt("MG_Won", won ? 1 : 0);
-            PlayerPrefs.Save();
 
+            // High Score
+            int storedHighScore = PlayerPrefs.GetInt("MG_HighScore", 0);
+            if (score > storedHighScore)
+                PlayerPrefs.SetInt("MG_HighScore", score);
+            savedScoreText.text = "Your Score :" + score + "Best Score :" + storedHighScore;
+            PlayerPrefs.Save();
             Debug.Log(won ? "[GameOver] Player WON." : "[GameOver] Player LOST.");
+        }
+
+        private void ResetGame()
+        {
+            comparisonInProgress = true;
+            pendingCard = null;
+            Card.UnresolvedFaceUp.Clear(); 
+            foreach (GameObject cardGo in cardsGo)
+            {
+                LeanTween.cancel(cardGo);
+                //Destroy(cardGo);
+                cardGo.SetActive(false);
+            }
+            cardsGo.Clear();
 
 
         }
-
     }
 
 }

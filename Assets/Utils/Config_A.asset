@@ -17,10 +17,10 @@ MonoBehaviour:
   mediumSize: {x: 5, y: 4}
   hardSize: {x: 6, y: 5}
   impossibleSize: {x: 8, y: 6}
-  easyTime: 25
-  mediumTime: 60
-  hardTime: 100
-  impossibleTime: 190
+  easyTime: 30
+  mediumTime: 70
+  hardTime: 110
+  impossibleTime: 220
   atlas: {fileID: 21300000, guid: dfcc61c62c7eba34aab0e0374aede06f, type: 3}
   atlasColumns: 8
   atlasRows: 5

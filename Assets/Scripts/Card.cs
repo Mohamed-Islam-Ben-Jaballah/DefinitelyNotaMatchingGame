@@ -9,7 +9,7 @@ namespace MatchingGame
     {
         // ---------- STATIC GLOBAL RESOLUTION STATE ----------
         /// <summary>Ordered list of all face-up, *unresolved* cards (reveal order).</summary>
-        private static readonly List<Card> UnresolvedFaceUp = new List<Card>(32);
+        public static readonly List<Card> UnresolvedFaceUp = new List<Card>(8);
 
         /// <summary>Try to resolve as many ready pairs as possible (first two finished face-up flips).</summary>
         private static void TryResolvePairs()

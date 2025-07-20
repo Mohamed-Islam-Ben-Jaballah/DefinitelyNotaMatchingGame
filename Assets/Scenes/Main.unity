@@ -334,6 +334,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1314684478 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1314684478, guid: f1d3641b99c9e674ca48b0af2bfc0ce8, type: 3}
+  m_PrefabInstance: {fileID: 1320247570}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1320247570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -345,6 +356,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 158269108}
+    - target: {fileID: 1314684478, guid: f1d3641b99c9e674ca48b0af2bfc0ce8, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 71164171695382379, guid: f1d3641b99c9e674ca48b0af2bfc0ce8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -476,6 +491,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1559138807 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4644781803698740463, guid: f1d3641b99c9e674ca48b0af2bfc0ce8, type: 3}
+  m_PrefabInstance: {fileID: 1320247570}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8727d88b71640146b558c5c0016ba9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1723115261 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1723115261, guid: f1d3641b99c9e674ca48b0af2bfc0ce8, type: 3}
@@ -488,6 +514,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 265454078, guid: fbec2a54a1dd2b34e814a701d7ccf562, type: 3}
+      propertyPath: musicVolume
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 3998729672536998904, guid: fbec2a54a1dd2b34e814a701d7ccf562, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -546,6 +576,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7133060160584749584, guid: df96b9b78baac684db54b492d1f87fab, type: 3}
+      propertyPath: timer
+      value: 
+      objectReference: {fileID: 1559138807}
+    - target: {fileID: 7133060160584749584, guid: df96b9b78baac684db54b492d1f87fab, type: 3}
       propertyPath: comboText
       value: 
       objectReference: {fileID: 1320247572}
@@ -573,6 +607,14 @@ PrefabInstance:
       propertyPath: GameLostPanel
       value: 
       objectReference: {fileID: 100914283}
+    - target: {fileID: 7133060160584749584, guid: df96b9b78baac684db54b492d1f87fab, type: 3}
+      propertyPath: savedComboText
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7133060160584749584, guid: df96b9b78baac684db54b492d1f87fab, type: 3}
+      propertyPath: savedScoreText
+      value: 
+      objectReference: {fileID: 1314684478}
     - target: {fileID: 7133060160584749590, guid: df96b9b78baac684db54b492d1f87fab, type: 3}
       propertyPath: m_Name
       value: GameManager

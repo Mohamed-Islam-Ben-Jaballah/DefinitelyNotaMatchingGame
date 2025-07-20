@@ -14,7 +14,7 @@ namespace MatchingGame
         [Tooltip("Start counting automatically on Enable")]
         [SerializeField] private bool startOnEnable = true;
 
-        private float elapsedTime = 0f;
+        public float timeLeft = 0f;
         private bool running = false;
 
         public event System.Action OnTimeExpired;
@@ -38,9 +38,9 @@ namespace MatchingGame
         private void Update()
         {
             if (!running) return;
-            elapsedTime -= Time.deltaTime;
+            timeLeft -= Time.deltaTime;
             UpdateDisplay();
-            if (elapsedTime <= 0f)
+            if (timeLeft <= 0f)
             {
                 running = false;
                 OnTimeExpired.Invoke();
@@ -52,9 +52,9 @@ namespace MatchingGame
         /// </summary>
         private void UpdateDisplay()
         {
-            int minutes = (int)(elapsedTime / 60f);
-            int seconds = (int)(elapsedTime % 60f);
-            int milliseconds = (int)((elapsedTime * 1000f) % 1000f);
+            int minutes = (int)(timeLeft / 60f);
+            int seconds = (int)(timeLeft % 60f);
+            int milliseconds = (int)((timeLeft * 1000f) % 1000f);
 
             timeText.text = string.Format("{0:00}:{1:00}:{2:0}", minutes, seconds, milliseconds/100);
         }
@@ -68,7 +68,8 @@ namespace MatchingGame
         /// <summary>Reset elapsed time to zero and update display.</summary>
         public void ResetTimer()
         {
-            elapsedTime = timeLimit;
+            timeLimit = GameManager.Instance.ConfigHandler.CurrentTimeLimit();
+            timeLeft = timeLimit;
             UpdateDisplay();
         }
 
