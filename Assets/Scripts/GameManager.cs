@@ -41,6 +41,8 @@ namespace MatchingGame
         [SerializeField] private TMP_Text timerText;
         [SerializeField] private GameObject inGamePanel;
         [SerializeField] private GameObject inMenuPanel;
+        [SerializeField] private GameObject GameWonPanel;
+        [SerializeField] private GameObject GameLostPanel;
 
         public static GameManager Instance
         {
@@ -87,6 +89,8 @@ namespace MatchingGame
         public void LaunchGame()
         {
             inMenuPanel.SetActive(false);
+            GameWonPanel.SetActive(false);
+            GameLostPanel.SetActive(false);
             inGamePanel.SetActive(true);    
             gameOverTriggered = false;
         }
@@ -102,6 +106,7 @@ namespace MatchingGame
             combo *= scoringHandler.comboMultiplier;
             score += scoringHandler.baseScore * combo;
             AudioManager.instance.PlayMatch(0.6f + combo * 0.06f);
+            PairMatched();
             UpdateUI();
 
         }
@@ -113,6 +118,14 @@ namespace MatchingGame
             UpdateUI();
         }
 
+        public void PairMatched()
+        {
+            if (gameOverTriggered) return;
+            unresolvedPairs--;
+            if (unresolvedPairs <= 0)
+                GameOver(true);
+        }
+
         public void GameOver(bool won)
         {
             if (gameOverTriggered) return;
@@ -122,14 +135,21 @@ namespace MatchingGame
             comparisonInProgress = true; // Stop any further comparisons / input
             pendingCard = null;
 
-            //block interactions
             foreach (GameObject cardGo in cardsGo)
             {
-                if (cardGo && cardGo.activeSelf)
-                {
-                    cardGo.GetComponent<UnityEngine.UI.Button>().interactable = false;
-                }
+                Destroy(cardGo);
             }
+            cardsGo = new List<GameObject>();
+
+            if (won)
+            {
+                configHandler.AdvanceDifficulty();
+            }
+
+            inGamePanel.SetActive(false);
+            inMenuPanel.SetActive(false);
+            GameWonPanel.SetActive(won);
+            GameLostPanel.SetActive(!won);
 
             // Save basic results
             PlayerPrefs.SetInt("MG_LastScore", score);
@@ -138,6 +158,8 @@ namespace MatchingGame
             PlayerPrefs.Save();
 
             Debug.Log(won ? "[GameOver] Player WON." : "[GameOver] Player LOST.");
+
+
         }
 
     }

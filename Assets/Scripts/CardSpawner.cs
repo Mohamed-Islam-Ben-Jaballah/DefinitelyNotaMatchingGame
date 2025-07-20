@@ -78,11 +78,15 @@ namespace MatchingGame
         /// </summary>
         private void SpawnCards()
         {
-            var gridSize = configHandler.CurrentDifficultySize();
+            Vector2Int gridSize = configHandler.CurrentDifficultySize();
             int uniqueImagesCount = gridSize.x * gridSize.y / 2;
 
-            // Calculate overall padding for the matching area
-            var rtSample = cardPrefab.GetComponent<RectTransform>();
+            // Calculate padding and card size for the matching area
+            Canvas canvas = GetComponentInParent<Canvas>();
+            RectTransform canvasRect = canvas.transform as RectTransform;
+            float cardSize = Mathf.Min(canvasRect.rect.height / gridSize.x, canvasRect.rect.width / gridSize.y) ;         
+            RectTransform rtSample = cardPrefab.GetComponent<RectTransform>();
+            rtSample.sizeDelta = new Vector2(cardSize, cardSize);
             float cellW = rtSample.rect.width + cardPadding.x;
             float cellH = rtSample.rect.height + cardPadding.y;
             float Hpadding = ((panelRect.rect.width - (cellW * gridSize.x)) * 0.5f) + paddingOffset.x;

@@ -53,7 +53,7 @@ MonoBehaviour:
   matchClip: {fileID: 8300000, guid: 16f2cdf57c2ebf0429bf22e25b787845, type: 3}
   mismatchClip: {fileID: 8300000, guid: 4b9398085e53df748bdfdfca67ecbf9e, type: 3}
   masterVolume: 1
-  musicVolume: 1
+  musicVolume: 0.08
   sfxVolume: 1
   randomizePitch: 1
   pitchVar: 0.1
